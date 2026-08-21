@@ -1,0 +1,49 @@
+{
+  "name": "testrazor",
+  "version": "0.1.0",
+  "description": "Change-aware, flake-aware test intelligence for CI. Run the tests a change touches. Trust the green.",
+  "type": "module",
+  "bin": {
+    "testrazor": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "selfcheck": "node dist/cli.js flake --report reports/junit.xml",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "fast-xml-parser": "5.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "keywords": [
+    "testing",
+    "ci",
+    "flaky-tests",
+    "test-impact-analysis",
+    "junit",
+    "coverage",
+    "github-action",
+    "kiro"
+  ],
+  "author": "zkasuran",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zkasuran/testrazor.git"
+  }
+}

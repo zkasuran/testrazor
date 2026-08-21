@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<testsuites>
+  <testsuite name="sample">
+    <testcase classname="price" name="clamps to zero"/>
+    <testcase classname="discount" name="applies a percentage"/>
+    <testcase classname="cart" name="sums a cart"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Typecheck and test on source save",
+      "description": "Keeps the suite and types green while building. Runs the fast gate whenever a source file is saved.",
+      "trigger": "PostFileSave",
+      "matcher": "^src/.*\\.ts$",
+      "action": {
+        "type": "command",
+        "command": "npm run typecheck && npm test"
+      },
+      "timeout": 180
+    }
+  ]
+}

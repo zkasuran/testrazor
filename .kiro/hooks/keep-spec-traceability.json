@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Keep spec traceability complete",
+      "description": "When a test file is created or changed, make sure each test maps to an acceptance criterion so requirements stay covered.",
+      "trigger": "PostFileSave",
+      "matcher": "^test/.*\\.test\\.ts$",
+      "action": {
+        "type": "agent",
+        "prompt": "A test file under test/ changed. Check that every test name carries a @covers <req>.<n> tag that points to a real acceptance criterion in .kiro/specs/testrazor/requirements.md. If any test is missing a tag or points to a criterion that does not exist, list the gaps and propose the correct tags. Do not edit unrelated tests."
+      },
+      "timeout": 120
+    }
+  ]
+}

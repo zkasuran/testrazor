@@ -1,0 +1,36 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm run typecheck
+      - name: Run the suite twice to build flake history
+        run: |
+          npx vitest run --reporter=junit --outputFile=reports/run1.xml
+          npx vitest run --reporter=junit --outputFile=reports/run2.xml
+      - run: npm run build
+      - name: testrazor flake (dogfood)
+        run: node dist/cli.js flake --report reports/run1.xml --report reports/run2.xml --quarantine .testrazor/quarantine.json
+      - name: testrazor gate (dogfood)
+        run: node dist/cli.js gate --report reports/run2.xml --quarantine .testrazor/quarantine.json
+      - name: testrazor report to the PR
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node dist/cli.js report --report reports/run1.xml --report reports/run2.xml --markdown > testrazor-report.md
+          node scripts/pr-comment.mjs testrazor-report.md

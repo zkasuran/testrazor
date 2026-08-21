@@ -1,0 +1,33 @@
+name: "testrazor"
+description: "Change-aware, flake-aware test gate. Impact selection and flake quarantine for CI."
+branding:
+  icon: "shield"
+  color: "green"
+inputs:
+  args:
+    description: "Arguments for the testrazor CLI, for example: gate --report reports/junit.xml"
+    required: true
+  comment:
+    description: "Post or update a pull request comment with the report."
+    required: false
+    default: "true"
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        cd "${{ github.action_path }}"
+        [ -d node_modules ] || npm ci
+        npm run build --silent
+    - shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        set -o pipefail
+        node "${{ github.action_path }}/dist/cli.js" ${{ inputs.args }} --markdown | tee "$RUNNER_TEMP/testrazor.md"
+        status=${PIPESTATUS[0]}
+        cat "$RUNNER_TEMP/testrazor.md" >> "$GITHUB_STEP_SUMMARY"
+        if [ "${{ inputs.comment }}" = "true" ]; then
+          node "${{ github.action_path }}/scripts/pr-comment.mjs" "$RUNNER_TEMP/testrazor.md" || true
+        fi
+        exit "$status"
