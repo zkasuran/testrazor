@@ -43,4 +43,10 @@ describe("flake engine", () => {
     const q = buildQuarantine(detectFlakes(rs), rs);
     expect(recommendReleases(q, runs({ "t.flaky": ["pass", "pass"] }))).toEqual(["t.flaky"]);
   });
+
+  it("@covers 3.4 persists quarantine entries sorted by id for a stable diff", () => {
+    const rs = runs({ "z.flaky": ["pass", "fail"], "a.flaky": ["fail", "pass"] });
+    const q = buildQuarantine(detectFlakes(rs), rs);
+    expect(q.map((e) => e.id)).toEqual(["a.flaky", "z.flaky"]);
+  });
 });

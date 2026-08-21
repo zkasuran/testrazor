@@ -87,7 +87,7 @@
       <div class="stat"><b>0</b><span>API keys or accounts</span></div>
       <div class="stat"><b>1</b><span>runtime dependency</span></div>
       <div class="stat"><b>JUnit</b><span>any language flakes</span></div>
-      <div class="stat"><b>24/24</b><span>tests, dogfooded</span></div>
+      <div class="stat"><b>27/27</b><span>tests, dogfooded</span></div>
     </div>
   </div>
   <div class="term">
@@ -165,7 +165,7 @@ score = min(passes,fails) / floor(runs/2)
 flaky = passes &gt; 0 <span class="dim">and</span> fails &gt; 0</pre>
     </div>
     <ol class="steps">
-      <li data-step><b>Group across runs.</b> Feed 2+ JUnit files or let testrazor rerun the suite N times and aggregate.</li>
+      <li data-step><b>Group across runs.</b> Feed two or more JUnit files from your run history.</li>
       <li data-step><b>Score.</b> A test that alternates evenly scores near 1, one that fails once in ten scores low but non-zero.</li>
       <li data-step><b>Quarantine.</b> Flaky ids are written to a committed file with their score and the runs they failed in. The gate excludes them.</li>
       <li data-step><b>Release.</b> A quarantined test that passes across the whole window is flagged to let back in.</li>

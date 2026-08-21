@@ -1,0 +1,16 @@
+$ testrazor flake -r run1.xml -r run2.xml -q quarantine.json
+testrazor flake
+  1 flaky of 3 tests over 2 runs
+    flaky  cart :: sums a cart  score 1.00 (1 pass / 1 fail)
+
+$ testrazor gate  -r run2.xml -q quarantine.json     # the flaky red is quarantined
+testrazor gate
+  result: PASS
+  ignored (quarantined flaky): 1
+
+$ testrazor gate  -r run2.xml                        # no quarantine: a real failure still blocks
+testrazor gate
+  result: FAIL
+  failing (real):
+    fail cart :: sums a cart
+

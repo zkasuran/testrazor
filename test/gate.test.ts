@@ -14,7 +14,7 @@ describe("gate", () => {
     expect(g.failing).toEqual(["real"]);
   });
 
-  it("@covers 5.2 passes when the only failure is quarantined", () => {
+  it("@covers 3.2 @covers 5.2 excludes a quarantined test so the gate passes", () => {
     const g = evaluateGate([one("flaky", "fail")], new Set(["flaky"]));
     expect(g.passed).toBe(true);
     expect(g.ignoredFlaky).toEqual(["flaky"]);

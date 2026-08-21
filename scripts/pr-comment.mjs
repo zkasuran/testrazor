@@ -3,8 +3,9 @@
 // marker so re-runs update the same comment instead of piling up. Uses the job
 // token and the GitHub REST API. No third-party dependency.
 import { readFileSync } from "node:fs";
+import { selectCommentTarget } from "../dist/comment.js";
+import { MARKER } from "../dist/report/render.js";
 
-const MARKER = "<!-- testrazor -->";
 const token = process.env.GITHUB_TOKEN;
 const repo = process.env.GITHUB_REPOSITORY;
 const eventPath = process.env.GITHUB_EVENT_PATH;
@@ -31,10 +32,9 @@ const headers = {
 };
 
 const list = await fetch(`${api}/issues/${pr}/comments?per_page=100`, { headers }).then((r) => r.json());
-const existing = Array.isArray(list)
-  ? list.find((c) => typeof c.body === "string" && c.body.includes(MARKER))
-  : undefined;
-
-const url = existing ? `${api}/issues/comments/${existing.id}` : `${api}/issues/${pr}/comments`;
-const res = await fetch(url, { method: existing ? "PATCH" : "POST", headers, body: JSON.stringify({ body }) });
-console.log(`pr-comment: ${existing ? "updated" : "created"} (${res.status})`);
+const target = selectCommentTarget(Array.isArray(list) ? list : [], MARKER);
+const url = target.method === "PATCH"
+  ? `${api}/issues/comments/${target.id}`
+  : `${api}/issues/${pr}/comments`;
+const res = await fetch(url, { method: target.method, headers, body: JSON.stringify({ body }) });
+console.log(`pr-comment: ${target.method === "PATCH" ? "updated" : "created"} (${res.status})`);

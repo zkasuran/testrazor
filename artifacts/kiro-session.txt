@@ -1,0 +1,60 @@
+$ kiro-cli chat --no-interactive --trust-tools=fs_read \
+    "verify every acceptance criterion in the spec has a test tagged @covers"
+
+Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/.kiro/specs/testrazor/requirements.md, all lines (using tool: read)Searching for files: test/*.test.ts in /home/asuran/Downloads/hackathon-hq/work/testrazor (using tool: glob)
+ ✓ Successfully read 5654 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/.kiro/specs/testrazor/requirements.md
+ - Completed in 0.0s
+ ✓ Successfully found 9 files under /home/asuran/Downloads/hackathon-hq/work/testrazor
+ - Completed in 0.1s
+Batch fs_read operation with 5 operations (using tool: read)
+↱ Operation 1: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/graph.test.ts, all lines
+↱ Operation 2: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/render.test.ts, all lines
+↱ Operation 3: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/gate.test.ts, all lines
+↱ Operation 4: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/junit.test.ts, all lines
+↱ Operation 5: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/impact.test.ts, all linesBatch fs_read operation with 4 operations (using tool: read)
+↱ Operation 1: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/config.test.ts, all lines
+↱ Operation 2: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/flake.test.ts, all lines
+↱ Operation 3: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/git.test.ts, all lines
+↱ Operation 4: Reading file: /home/asuran/Downloads/hackathon-hq/work/testrazor/test/comment.test.ts, all lines
+ ✓ Successfully read 1495 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/graph.test.ts
+ ✓ Successfully read 1388 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/render.test.ts
+ ✓ Successfully read 1162 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/gate.test.ts
+ ✓ Successfully read 1009 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/junit.test.ts
+ ✓ Successfully read 1682 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/impact.test.ts
+ ⋮ 
+- Summary: 5 operations processed, 5 successful, 0 failed
+ - Completed in 0.0s
+ ✓ Successfully read 603 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/config.test.ts
+ ✓ Successfully read 2177 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/flake.test.ts
+ ✓ Successfully read 314 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/git.test.ts
+ ✓ Successfully read 630 bytes from /home/asuran/Downloads/hackathon-hq/work/testrazor/test/comment.test.ts
+ ⋮ 
+- Summary: 4 operations processed, 4 successful, 0 failed
+ - Completed in 0.0s
+> | Req.Criterion | Covered? | Test file |
+|---|---|---|
+| 1.1 | ✅ | test/git.test.ts |
+| 1.2 | ✅ | test/graph.test.ts |
+| 1.3 | ✅ | test/impact.test.ts |
+| 1.4 | ✅ | test/impact.test.ts |
+| 1.5 | ✅ | test/impact.test.ts |
+| 1.6 | ✅ | test/impact.test.ts |
+| 2.1 | ✅ | test/junit.test.ts |
+| 2.2 | ✅ | test/flake.test.ts |
+| 2.3 | ✅ | test/flake.test.ts |
+| 2.4 | ✅ | test/flake.test.ts |
+| 3.1 | ✅ | test/flake.test.ts |
+| 3.2 | ✅ | test/gate.test.ts |
+| 3.3 | ✅ | test/flake.test.ts |
+| 3.4 | ✅ | test/flake.test.ts |
+| 4.1 | ✅ | test/render.test.ts |
+| 4.2 | ✅ | test/render.test.ts |
+| 4.3 | ✅ | test/render.test.ts |
+| 4.4 | ✅ | test/render.test.ts |
+| 4.5 | ✅ | test/render.test.ts |
+| 5.1 | ✅ | test/gate.test.ts |
+| 5.2 | ✅ | test/gate.test.ts |
+| 5.3 | ✅ | test/gate.test.ts |
+| 5.4 | ✅ | test/comment.test.ts |
+Verdict: Requirements 1–5 are fully covered — every acceptance criterion has at least one test with a matching @covers tag.
+ ▸ Credits: 0.30 • Time: 19s

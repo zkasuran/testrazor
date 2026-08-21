@@ -141,7 +141,7 @@ own `GITHUB_TOKEN`, subject to normal GitHub API limits.
 ```bash
 npm ci
 npm run typecheck        # strict TypeScript, no errors
-npm test                 # 24 vitest cases, all green, emits reports/junit.xml
+npm test                 # 27 vitest cases, all green, emits reports/junit.xml
 npm run build            # compiles to dist/
 ```
 

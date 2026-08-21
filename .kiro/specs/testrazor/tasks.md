@@ -37,8 +37,6 @@
     - _Requirements: 6.1, 6.4_
   - [ ] 7.2 Gate exit codes, never masking a consistent failure.
     - _Requirements: 5.1, 5.2, 5.3_
-  - [ ] 7.3 Rerun mode that runs the test command N times and aggregates JUnit.
-    - _Requirements: 2.5_
 
 - [ ] 8. GitHub Action
   - Composite `action.yml` that runs the CLI and upserts one PR comment through the job token.

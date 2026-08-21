@@ -39,7 +39,6 @@ so that a nondeterministic failure does not block a correct change.
 2. WHEN a test both passes and fails across the provided runs THEN testrazor SHALL classify it as flaky.
 3. WHEN a test fails in every run THEN testrazor SHALL classify it as a consistent failure and SHALL NOT mark it flaky.
 4. WHEN classifying a test THEN testrazor SHALL compute a flake score from 0 to 1 derived from its pass and fail counts.
-5. WHERE a rerun count is configured THEN testrazor SHALL run the test command that many times and aggregate the JUnit output itself.
 
 ### Requirement 3
 

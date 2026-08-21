@@ -1,0 +1,12 @@
+$ testrazor impact --root fixtures/sample-repo --changed src/discount.ts
+testrazor impact
+  selected 2 of 3 test files, 1 skipped (33%)
+    run  test/cart.test.ts
+    run  test/discount.test.ts
+
+$ testrazor impact --root fixtures/sample-repo --changed src/price.ts   # a shared dep hits all three
+testrazor impact
+  selected 3 of 3 test files, 0 skipped (0%)
+    run  test/cart.test.ts
+    run  test/discount.test.ts
+    run  test/price.test.ts

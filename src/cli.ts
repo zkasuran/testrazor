@@ -128,11 +128,11 @@ Commands:
   init     scaffold testrazor.config.json and a runnable example
 
 Flags:
-  --report <file>   JUnit XML, repeatable    --base <ref>   --head <ref>
-  --changed <file>  changed file, repeatable (skips git, for impact)
-  --root <dir>      project root for the import graph
-  --quarantine <f>  quarantine file path     --config <f>   config file
-  --json --markdown output format (default is a table)`;
+  --report,-r <file>   JUnit XML, repeatable   --base <ref>   --head <ref>
+  --changed <file>     changed file, repeatable (skips git, for impact)
+  --root <dir>         project root for the import graph
+  --quarantine,-q <f>  quarantine file path    --config <f>   config file
+  --json --markdown    output format (default is a table)`;
 
 function main(argv: string[]): number {
   const { values, positionals } = parseArgs({
@@ -143,9 +143,9 @@ function main(argv: string[]): number {
       base: { type: "string" },
       head: { type: "string" },
       root: { type: "string" },
-      report: { type: "string", multiple: true },
+      report: { type: "string", multiple: true, short: "r" },
       changed: { type: "string", multiple: true },
-      quarantine: { type: "string" },
+      quarantine: { type: "string", short: "q" },
       json: { type: "boolean" },
       markdown: { type: "boolean" },
       help: { type: "boolean", short: "h" },
