@@ -3,6 +3,8 @@
 Change-aware, flake-aware test intelligence for CI. Run the tests a change
 actually touches. Trust the green.
 
+**Live demo:** [zkasuran.github.io/testrazor](https://zkasuran.github.io/testrazor/)
+
 Built with [Kiro](https://kiro.dev) using spec-driven development. The `.kiro/`
 directory in this repo holds the requirements, design, tasks, steering docs and
 agent hooks that produced it.
