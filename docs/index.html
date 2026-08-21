@@ -113,9 +113,9 @@
   <h2>Green does not mean what you think</h2>
   <p class="lead">Two everyday CI failures have nothing to do with your code and both cost you the same way: slow feedback and lost trust in the build.</p>
   <div class="cards">
-    <div class="card"><div class="n">01</div><h3>The suite is too slow</h3><p>A one-line change reruns thousands of tests for minutes. Most of them could not possibly be affected by what you touched.</p></div>
-    <div class="card"><div class="n">02</div><h3>Flaky tests cry wolf</h3><p>A test fails at random, turns the build red and blocks a correct change. People start re-running CI until it is green, so real failures get ignored too.</p></div>
-    <div class="card"><div class="n">03</div><h3>You stop trusting green</h3><p>Once red is sometimes noise, green stops being a signal. testrazor makes the fast path safe and keeps a real failure loud.</p></div>
+    <div class="card" data-step><div class="n">01</div><h3>The suite is too slow</h3><p>A one-line change reruns thousands of tests for minutes. Most of them could not possibly be affected by what you touched.</p></div>
+    <div class="card" data-step><div class="n">02</div><h3>Flaky tests cry wolf</h3><p>A test fails at random, turns the build red and blocks a correct change. People start re-running CI until it is green, so real failures get ignored too.</p></div>
+    <div class="card" data-step><div class="n">03</div><h3>You stop trusting green</h3><p>Once red is sometimes noise, green stops being a signal. testrazor makes the fast path safe and keeps a real failure loud.</p></div>
   </div>
 </section>
 <section id="how">
@@ -124,12 +124,12 @@
   <p class="lead">Standard coverage is aggregated across a whole run, so it cannot say which test touched which line. A static import graph can, deterministically. testrazor selects the test files that transitively import a changed source file.</p>
   <div class="two">
     <ol class="steps">
-      <li><b>Read the diff.</b> <code>git diff --name-only</code> (or an explicit <code>--changed</code> list from your CI).</li>
-      <li><b>Build the graph.</b> Resolve relative <code>import</code>, <code>export ... from</code>, <code>require</code> and dynamic <code>import()</code> specifiers across the source tree.</li>
-      <li><b>Select.</b> Any test that reaches a changed file through the graph runs. Everything else is skipped.</li>
-      <li><b>Fail safe.</b> A change to a non-source file (config, lockfile) selects every test, so an unmeasured change never slips through. A changed file no test imports is reported, never hidden.</li>
+      <li data-step><b>Read the diff.</b> <code>git diff --name-only</code> (or an explicit <code>--changed</code> list from your CI).</li>
+      <li data-step><b>Build the graph.</b> Resolve relative <code>import</code>, <code>export ... from</code>, <code>require</code> and dynamic <code>import()</code> specifiers across the source tree.</li>
+      <li data-step><b>Select.</b> Any test that reaches a changed file through the graph runs. Everything else is skipped.</li>
+      <li data-step><b>Fail safe.</b> A change to a non-source file (config, lockfile) selects every test, so an unmeasured change never slips through. A changed file no test imports is reported, never hidden.</li>
     </ol>
-    <div class="diagram">
+    <div class="diagram" data-step>
       <div style="font-family:var(--mono);font-size:12px;color:var(--amber);border:1px solid var(--border2);border-radius:8px;padding:8px 11px;display:inline-block">changed &#8594; src/discount.ts</div>
       <div class="dim" style="font-family:var(--mono);font-size:11.5px;margin:12px 0 6px">cart.ts &#8594; discount.ts &#8594; price.ts</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px">
@@ -165,10 +165,10 @@ score = min(passes,fails) / floor(runs/2)
 flaky = passes &gt; 0 <span class="dim">and</span> fails &gt; 0</pre>
     </div>
     <ol class="steps">
-      <li><b>Group across runs.</b> Feed 2+ JUnit files or let testrazor rerun the suite N times and aggregate.</li>
-      <li><b>Score.</b> A test that alternates evenly scores near 1, one that fails once in ten scores low but non-zero.</li>
-      <li><b>Quarantine.</b> Flaky ids are written to a committed file with their score and the runs they failed in. The gate excludes them.</li>
-      <li><b>Release.</b> A quarantined test that passes across the whole window is flagged to let back in.</li>
+      <li data-step><b>Group across runs.</b> Feed 2+ JUnit files or let testrazor rerun the suite N times and aggregate.</li>
+      <li data-step><b>Score.</b> A test that alternates evenly scores near 1, one that fails once in ten scores low but non-zero.</li>
+      <li data-step><b>Quarantine.</b> Flaky ids are written to a committed file with their score and the runs they failed in. The gate excludes them.</li>
+      <li data-step><b>Release.</b> A quarantined test that passes across the whole window is flagged to let back in.</li>
     </ol>
   </div>
 </section>
@@ -190,11 +190,11 @@ flaky = passes &gt; 0 <span class="dim">and</span> fails &gt; 0</pre>
   <h2>Spec-driven, with the specs in the repo</h2>
   <p class="lead">testrazor was built with Kiro's spec-driven workflow. The <code>.kiro/</code> directory is committed so you can see the process, not just the result.</p>
   <div class="cards">
-    <div class="card"><div class="n">.kiro/specs</div><h3>requirements &#8594; design &#8594; tasks</h3><p>Behaviour as EARS acceptance criteria, a fixed architecture and a task plan. Every module maps back to a numbered requirement.</p></div>
-    <div class="card"><div class="n">.kiro/steering</div><h3>product, tech, structure</h3><p>The rules the agent followed on every file: one dependency, pure engines, the honest-scope rule.</p></div>
-    <div class="card"><div class="n">.kiro/hooks</div><h3>typecheck and traceability</h3><p>One hook runs typecheck and tests on save, one checks that every test still maps to an acceptance criterion.</p></div>
+    <div class="card" data-step><div class="n">.kiro/specs</div><h3>requirements &#8594; design &#8594; tasks</h3><p>Behaviour as EARS acceptance criteria, a fixed architecture and a task plan. Every module maps back to a numbered requirement.</p></div>
+    <div class="card" data-step><div class="n">.kiro/steering</div><h3>product, tech, structure</h3><p>The rules the agent followed on every file: one dependency, pure engines, the honest-scope rule.</p></div>
+    <div class="card" data-step><div class="n">.kiro/hooks</div><h3>typecheck and traceability</h3><p>One hook runs typecheck and tests on save, one checks that every test still maps to an acceptance criterion.</p></div>
   </div>
-  <p class="lead" style="margin-top:22px">The design changed mid-build through the spec: an early draft used coverage for impact, but standard coverage cannot say which test hit which line, so it moved to an import graph. Every test name carries a <code>@covers &lt;req&gt;.&lt;n&gt;</code> tag, so the suite is a live traceability matrix over the requirements.</p>
+  <p class="lead" data-step style="margin-top:22px">The design changed mid-build through the spec: an early draft used coverage for impact, but standard coverage cannot say which test hit which line, so it moved to an import graph. Every test name carries a <code>@covers &lt;req&gt;.&lt;n&gt;</code> tag, so the suite is a live traceability matrix over the requirements.</p>
 </section>
 
 <section id="scope">
@@ -223,5 +223,16 @@ flaky = passes &gt; 0 <span class="dim">and</span> fails &gt; 0</pre>
   <span><a href="https://github.com/zkasuran/testrazor">github.com/zkasuran/testrazor</a></span>
 </footer>
 </div>
+<script>
+  // Reveal contract for the demo-video capture kit: reveal the first k [data-step]
+  // items inside a section by opacity, never by display, so nothing reflows.
+  window.setReveal = function (k, scope) {
+    var sel = (scope ? scope + " " : "") + "[data-step]";
+    document.querySelectorAll(sel).forEach(function (el, i) {
+      el.style.opacity = i < k ? "1" : "0.12";
+      el.style.transition = "opacity .28s ease";
+    });
+  };
+</script>
 </body>
 </html>
