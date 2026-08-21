@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>testrazor: change-aware, flake-aware test intelligence for CI</title>
+<meta name="description" content="Run the tests a change touches. Trust the green. A zero-key CLI and GitHub Action that selects only affected tests and quarantines flaky ones." />
+<style>
+  :root {
+    --bg: #0b0f14; --panel: #131a22; --border: #223041; --ink: #e6edf3;
+    --muted: #93a4b3; --accent: #3ddc97; --accent2: #4cc9f0; --red: #ff6b6b;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: radial-gradient(1200px 600px at 70% -10%, #17303a 0%, var(--bg) 55%); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header { padding: 84px 0 56px; }
+  .logo { font-family: var(--mono); font-weight: 700; letter-spacing: -0.5px; font-size: 15px; color: var(--accent); }
+  h1 { font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 18px 0 10px; letter-spacing: -1.5px; }
+  h1 .sharp { color: var(--accent); }
+  .tag { font-size: clamp(17px, 2.4vw, 22px); color: var(--muted); max-width: 640px; }
+  .cta { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 18px; border-radius: 9px; font-weight: 600; font-size: 15px; border: 1px solid var(--border); }
+  .btn.pri { background: var(--accent); color: #05271a; border-color: var(--accent); }
+  .btn.ghost { color: var(--ink); }
+  .kiro { margin-top: 22px; font-size: 13px; color: var(--muted); }
+  .kiro b { color: var(--ink); font-weight: 600; }
+  section { padding: 26px 0; }
+  h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 18px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .card h3 { margin: 0 0 6px; font-size: 17px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14px; }
+  .term { background: #05080c; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 8px 0 4px; }
+  .term .bar { display: flex; gap: 7px; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+  .dot { width: 11px; height: 11px; border-radius: 50%; background: #33404f; }
+  .term pre { margin: 0; padding: 16px 18px; font-family: var(--mono); font-size: 13px; line-height: 1.5; overflow-x: auto; color: #d6e2ee; }
+  .term .cmd { color: var(--accent2); } .term .ok { color: var(--accent); } .term .bad { color: var(--red); } .term .dim { color: var(--muted); }
+  @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+  footer { padding: 40px 0 70px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); margin-top: 30px; }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="logo">&#9626; testrazor</div>
+  <h1>Run the tests a change touches.<br><span class="sharp">Trust the green.</span></h1>
+  <p class="tag">A zero-key CLI and GitHub Action that runs only the tests your change can reach and quarantines flaky ones so a green build means what it says.</p>
+  <div class="cta">
+    <a class="btn pri" href="https://github.com/zkasuran/testrazor">View on GitHub</a>
+    <a class="btn ghost" href="#start">Quick start</a>
+  </div>
+  <p class="kiro">Built with <b>Kiro</b> using spec-driven development. The <code>.kiro/</code> specs, steering docs and hooks that produced it live in the repo.</p>
+</header>
+
+<section class="wrap">
+  <h2>What it does</h2>
+  <div class="cards">
+    <div class="card"><h3>Impact</h3><p>From a git diff and a source import graph, it selects only the test files a change can reach. Feedback in seconds, not minutes.</p></div>
+    <div class="card"><h3>Flake</h3><p>From two or more JUnit runs it finds tests that both pass and fail, scores them and quarantines them. A test that only ever fails is a real bug and is never quarantined.</p></div>
+    <div class="card"><h3>Gate</h3><p>One exit code for CI. A quarantined flaky failure does not block. A real failure always does.</p></div>
+  </div>
+</section>
+<section class="wrap">
+  <h2>See it on a sample repo</h2>
+  <div class="term">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<pre><span class="cmd">$ testrazor impact --root fixtures/sample-repo --changed src/discount.ts</span>
+testrazor impact
+  selected 2 of 3 test files, 1 skipped (33%)
+    run  test/cart.test.ts
+    run  test/discount.test.ts
+
+<span class="cmd">$ testrazor flake --report run1.xml --report run2.xml</span>
+testrazor flake
+  1 flaky of 3 tests over 2 runs
+    <span class="ok">flaky</span>  cart :: sums a cart  score 1.00 (1 pass / 1 fail)
+
+<span class="cmd">$ testrazor gate --report run2.xml --quarantine q.json</span>
+testrazor gate
+  result: <span class="ok">PASS</span>   <span class="dim"># the flaky failure is quarantined, it does not block</span>
+  ignored (quarantined flaky): 1
+
+<span class="cmd">$ testrazor gate --report run2.xml</span>   <span class="dim"># no quarantine</span>
+  result: <span class="bad">FAIL</span>
+    <span class="bad">fail</span> cart :: sums a cart   <span class="dim"># a real failure always does</span></pre>
+  </div>
+</section>
+
+<section class="wrap" id="start">
+  <h2>Quick start (60 seconds, no key)</h2>
+  <div class="term">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<pre><span class="cmd">git clone https://github.com/zkasuran/testrazor &amp;&amp; cd testrazor</span>
+<span class="cmd">npm ci &amp;&amp; npm run build</span>
+<span class="cmd">node dist/cli.js impact --root fixtures/sample-repo --changed src/discount.ts</span></pre>
+  </div>
+  <p class="tag" style="font-size:15px">Flake and gate work for any language that emits JUnit XML. Impact is supported for JavaScript and TypeScript. No account, no API key, no network.</p>
+</section>
+
+<footer class="wrap">
+  testrazor is MIT licensed. Built with Kiro for the Ready, Spec, Ship Hackathon.
+  <a href="https://github.com/zkasuran/testrazor">github.com/zkasuran/testrazor</a>
+</footer>
+</body>
+</html>
